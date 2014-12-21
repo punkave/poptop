@@ -55,13 +55,17 @@ tail -50000 /var/log/nginx/mysite.access.log | poptop --ignore-static --folders
 
 Here's a really fancy command line from my actual life:
 
+```
 tail -100000 mysite.access.log | node app --ignore-static --ignore-query --successful "--ignore=/admin|svn|/logout|/login" --folders
+```
 
 ## Search report
 
 After popular pages, the second most common question is "what did people search for?" Use the `--search` option to find out:
 
+```
 tail -50000 /var/log/nginx/mysite.access.log | poptop --search=/search,q
+```
 
 You'll need to specify the URL where searches happen, and the query string parameter that contains the search string, separated by a comma.
 
