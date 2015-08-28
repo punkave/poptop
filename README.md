@@ -81,3 +81,9 @@ And, you can ignore any regular expression you wish with the `--ignore` option. 
 
 `poptop` was created to facilitate our work at [P'unk Avenue](http://punkave.com).
 
+## Changelog
+
+0.1.3: added `woff` and `eot` to `--ignore-static`.
+
+0.1.2: the `--ignore-extensions` option works properly. Also, extensions are still ignored if they are followed by a query string.
+

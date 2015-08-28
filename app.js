@@ -6,7 +6,7 @@ var clf = require('clf-parser');
 var qs = require('qs');
 
 var ignore = argv.ignore ? [ argv.ignore ] : [];
-var ignoreExtensions = argv['ignore-extensions'] ? argv['ignore-extensions'] : [];
+var ignoreExtensions = argv['ignore-extensions'] ? argv['ignore-extensions'].split('/') : [];
 
 if (argv.help) {
   console.error('Usage: cat /var/log/nginx/my-logfile.log | poptop [--ignore-static] [--ignore-extensions=gif,png] [--ignore=regexp] [--ignore-query] [-r] [--successful] [--notfound] [--search=url,parameter]');
@@ -14,13 +14,13 @@ if (argv.help) {
 }
 
 if (argv['ignore-static']) {
-  ignoreExtensions.push('gif,jpg,png,js,xlx,pptx,docx,css,ico,pdf');
+  ignoreExtensions.push('gif,jpg,png,js,xlx,pptx,docx,css,ico,pdf,eot,woff');
 }
 
 var ignore;
 
 ignoreExtensions.forEach(function(list) {
-  ignore.push('\\.(' + list.replace(/,/g, '|') + ')$');
+  ignore.push('\\.(' + list.replace(/,/g, '|') + ')(\\?|$)');
 });
 
 ignore = ignore.map(function(regexp) {
