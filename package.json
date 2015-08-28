@@ -1,6 +1,6 @@
 {
   "name": "poptop",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Quick and dirty reports on the most popular URLs and searches in an Apache or Nginx-style log file",
   "main": "app.js",
   "scripts": {

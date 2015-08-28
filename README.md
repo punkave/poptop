@@ -53,10 +53,17 @@ How about totals for folders?
 tail -50000 /var/log/nginx/mysite.access.log | poptop --ignore-static --folders
 ```
 
+Don't want to count `302` and `304` redirects themselves as successful?
+
+```
+tail -50000 /var/log/nginx/mysite.access.log | poptop --ignore-redirects
+```
+
+
 Here's a really fancy command line from my actual life:
 
 ```
-tail -100000 mysite.access.log | node app --ignore-static --ignore-query --successful "--ignore=/admin|svn|/logout|/login" --folders
+tail -100000 mysite.access.log | poptop --ignore-static --ignore-query --successful --ignore-redirects "--ignore=/admin|svn|/logout|/login" --folders
 ```
 
 ## Search report
@@ -82,6 +89,8 @@ And, you can ignore any regular expression you wish with the `--ignore` option. 
 `poptop` was created to facilitate our work at [P'unk Avenue](http://punkave.com).
 
 ## Changelog
+
+0.1.4: added `--ignore-redirects` and a report of total accesses.
 
 0.1.3: added `woff` and `eot` to `--ignore-static`.
 

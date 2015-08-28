@@ -9,7 +9,7 @@ var ignore = argv.ignore ? [ argv.ignore ] : [];
 var ignoreExtensions = argv['ignore-extensions'] ? argv['ignore-extensions'].split('/') : [];
 
 if (argv.help) {
-  console.error('Usage: cat /var/log/nginx/my-logfile.log | poptop [--ignore-static] [--ignore-extensions=gif,png] [--ignore=regexp] [--ignore-query] [-r] [--successful] [--notfound] [--search=url,parameter]');
+  console.error('Usage: cat /var/log/nginx/my-logfile.log | poptop [--ignore-static] [--ignore-extensions=gif,png] [--ignore=regexp] [--ignore-query] [-r] [--successful] [--notfound] [--search=url,parameter] [--ignore-redirects]');
   process.exit(1);
 }
 
@@ -27,7 +27,7 @@ ignore = ignore.map(function(regexp) {
   return new RegExp(regexp);
 });
 
-var popularity = {};
+var popularity = { 'TOTAL': 0 };
 
 var search = false;
 var searchUrl;
@@ -55,6 +55,11 @@ stream.on('data', function(line) {
   }
   if (argv.successful) {
     if ((info.status < 200) || (info.status > 399)) {
+      return;
+    }
+  }
+  if (argv['ignore-redirects']) {
+    if ((info.status === 302) || (info.status === 304)) {
       return;
     }
   }
@@ -109,6 +114,7 @@ stream.on('data', function(line) {
   } else {
     paths = [ info.path ];
   }
+  popularity['TOTAL']++;
   paths.forEach(function(path) {
     if (!popularity[path]) {
       popularity[path] = 0;
